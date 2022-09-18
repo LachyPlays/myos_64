@@ -11,18 +11,18 @@ CFLAGS = -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2
 LFLAGS = -T src/linker.ld -ffreestanding -O2 -nostdlib -lgcc
 
 %.o: %.c ${HEADERS}
-	${CC} ${CFLAGS} -c $< -o $@
+	-@${CC} ${CFLAGS} -c $< -o $@
 
 %.o: %.asm ${ASM}
-	nasm -felf64 -o $@ $<
+	-@nasm -felf64 -o $@ $<
 
 all: run
 
 myos.bin: ${OBJ}
-	amd64-elf-gcc ${LFLAGS} -o $@ $^ 
+	-@amd64-elf-gcc ${LFLAGS} -o $@ $^ 
 
 run: myos.bin
-	qemu-system-x86_64  -hda myos.bin
+	-@qemu-system-x86_64  -hda myos.bin
 
 clean:
-	rm *.bin *.o ${OBJ}
+	-@rm *.bin *.o ${OBJ}

@@ -1,4 +1,7 @@
-#include "arch/amd64/vga.h"
+#include "../arch/amd64/vga.h"
+
+#if __amd64__
+#endif
 
 void kmain()
 {
