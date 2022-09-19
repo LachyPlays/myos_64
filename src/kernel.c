@@ -1,4 +1,4 @@
-#include "../arch/amd64/vga.h"
+#include "arch/amd64/includes/vga.h"
 
 #if __amd64__
 #endif

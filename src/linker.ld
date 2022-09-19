@@ -7,6 +7,7 @@ SECTIONS {
     {
         _boot = .;
         *(.boot)
+        _bootheader = .;
         *(.bootheader)
         . = ALIGN(4096);
         *(.kernelpage)
