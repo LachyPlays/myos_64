@@ -12,6 +12,26 @@ struct writer {
 // Interface for VGA text buffer
 static struct writer WRITER = {0, 0};
 
+// Scrolls the VGA text buffer
+void scroll(){
+    volatile short* vgabuffer = (short*)VGA_MEMORY;
+
+    for(int i = 0; i < (VGA_MEMORY_WIDTH * VGA_MEMORY_HEIGHT) - VGA_MEMORY_WIDTH; i++){
+        vgabuffer[i] = vgabuffer[i + VGA_MEMORY_WIDTH];    
+    }
+    WRITER.row -= 1;
+}
+
+// Sets writer to next line
+void newLine(){
+    WRITER.column = 0;
+    if(WRITER.row >= VGA_MEMORY_HEIGHT){
+        scroll();
+    } else {
+        WRITER.row += 1;
+    }
+}
+
 // Writes an ASCII character and colour code to the VGA text buffer
 void writeChar(char character, char colourCode){
     volatile short* vgabuffer = (short*)VGA_MEMORY;
@@ -31,22 +51,9 @@ void writeChar(char character, char colourCode){
     }
 }
 
-// Sets writer to next line
-void newLine(){
-    WRITER.column = 0;
-    if(WRITER.row >= VGA_MEMORY_HEIGHT){
-        scroll();
-    } else {
-        WRITER.row += 1;
+// Writes a string of length to the VGA text buffer
+void writeString(const char* string, int length){
+    for(int i = 0; i < length; i++){
+        writeChar(string[i], WHITE_ON_BLACK);
     }
-}
-
-// Scrolls the VGA text buffer
-void scroll(){
-    volatile short* vgabuffer = (short*)VGA_MEMORY;
-
-    for(int i = 0; i < (VGA_MEMORY_WIDTH * VGA_MEMORY_HEIGHT) - VGA_MEMORY_WIDTH; i++){
-        vgabuffer[i] = vgabuffer[i + VGA_MEMORY_WIDTH];    
-    }
-    WRITER.row -= 1;
 }
