@@ -10,7 +10,7 @@ ASM = $(call rwildcard,src,*.asm)
 OBJ = ${INCLUDES:.c=.o} ${C_SOURCES:.c=.o} ${ASM:.asm=.o}
 
 CC = amd64-elf-gcc
-CFLAGS = -I./src/kernel/includes -I./src/libc/includes -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2
+CFLAGS = -I./src/kernel/includes -I./src/kernel/libk/includes -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2
 LFLAGS = -T src/linker.ld -ffreestanding -O2 -nostdlib -lgcc
 
 %.o: %.c ${HEADERS}
